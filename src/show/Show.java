@@ -358,7 +358,6 @@ public class Show {
 			speed = episodeSpeed.get(x);
 			difference = speed - baseSpeed;
 
-			//difference = (int)(difference * 4)/(double)4;
 			if(difference >= 0 && difference <= 0.25)
 			{
 				total += perEpisodeScore - 2 * difference;
