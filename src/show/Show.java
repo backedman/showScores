@@ -66,6 +66,8 @@ public class Show {
 				impactScore = -1;
 				input.println("Average Score: " + 0);
 				avgScore = 0;
+				input.println("Real Score: ");
+				realScore = null;
 				input.println("-------------------------");
 				input.close();
 			}
@@ -115,6 +117,7 @@ public class Show {
 		for(int x = 0; x < information.size(); x++)
 		{
 			content = information.get(x);
+			content = information.get(x);
 			if(x == 0)
 			{
 				content = Main.makeCompareable(content);
@@ -156,10 +159,9 @@ public class Show {
 				content = content.replaceFirst("averagescore:", "");
 
 			}
-			else if (x == 7 && !content.equals("-------------------------"))
+			else if(x == 7)
 			{
 				content = Main.makeCompareable(content, true);
-				realScoreExists = true;
 				content = content.replaceFirst("realscore:", "");
 			}
 			information.set(x, content);
@@ -175,10 +177,15 @@ public class Show {
 			impactScore = -1;
 		}
 		avgScore = Double.valueOf(information.get(6));
-		if(realScoreExists)
+		try
 		{
 			realScore = Double.valueOf(information.get(7));
 		}
+		catch(NumberFormatException e)
+		{
+			realScore = null;
+		}
+		
 		reader = new Scanner(System.in);
 			boolean accessShow = true;
 			while(accessShow)
@@ -606,6 +613,8 @@ public class Show {
 				impactScore = -1;
 				input.println("Average Score: " + 0);
 				avgScore = 0;
+				input.println("Real Score: ");
+				realScore = null;
 				input.println("-------------------------");
 				input.close();
 			}
@@ -707,7 +716,9 @@ public class Show {
 			{
 				content = Main.makeCompareable(content, true);
 				content = content.replaceFirst("realscore:", "");
+				
 			}
+			
 			information.set(x, content);
 		}
 		episodecount = Integer.valueOf(information.get(2));
@@ -721,7 +732,15 @@ public class Show {
 			impactScore = -1;
 		}
 		avgScore = Double.valueOf(information.get(6));
-		realScore = Double.valueOf(information.get(7));
+		try
+		{
+			realScore = Double.valueOf(information.get(7));
+		}
+		catch(NumberFormatException e)
+		{
+			realScore = null;
+		}
+		
 		reader = new Scanner(System.in);
 		if(OpenClose)
 		{

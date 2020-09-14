@@ -35,7 +35,7 @@ public class neuralNet {
 		derWeights = new double[51];
 		for(int x = 0; x < 51; x++)
 		{
-			weights[x] = Math.random();
+			weights[x] = Math.random() * 5;
 		}
 		
 		bias = new double[11];
@@ -46,76 +46,75 @@ public class neuralNet {
 		{
 			bias[x] = Math.random();
 		}
-	/*	weights[0] = 0.28220627518182345;
+		/*weights[0] = 0.28220627518182345;
         weights[1] = -0.6388493577617642;
         weights[2] = -0.5567956955682409;
         weights[3] = -0.003786491229766035;
         weights[4] = 0.22449168910577025;
         bias[0] = -2.563357434836538; */
 		
-		weights[0] = 0.9933876118340546;
-		weights[1] = 0.5140150256803155;
-		weights[2] = 0.4716424634153016;
-		weights[3] = 0.8375376125316227;
-		weights[4] = 0.936482374835705;
-		weights[5] = 0.15569475010233969;
-		weights[6] = 0.02332377197884998;
-		weights[7] = 0.9670028276100154;
-		weights[8] = 0.5187846941838676;
-		weights[9] = 0.5227786070605185;
-		weights[10] = 0.10570648666223993;
-		weights[11] = 0.634275901087352;
-		weights[12] = 0.021368899319620074;
-		weights[13] = 0.019667871778283736;
-		weights[14] = 0.44298637643968686;
-		weights[15] = 0.34036513941064467;
-		weights[16] = 0.38787863900985853;
-		weights[17] = 0.2858403352884815;
-		weights[18] = 0.3004641687586788;
-		weights[19] = 0.7695008870048777;
-		weights[20] = 0.25741438280847384;
-		weights[21] = 0.8144325476537806;
-		weights[22] = 0.27955401093396437;
-		weights[23] = 0.11719046222553033;
-		weights[24] = 0.4104367544299733;
-		weights[25] = 0.19251070404201945;
-		weights[26] = 0.5133086663721383;
-		weights[27] = 0.8613631081970303;
-		weights[28] = 0.16224323655508788;
-		weights[29] = 0.17166996046088456;
-		weights[30] = 0.5242727713483268;
-		weights[31] = 0.3037311413574869;
-		weights[32] = 0.03148046141296146;
-		weights[33] = 0.8599766315518451;
-		weights[34] = 0.19442759168079474;
-		weights[35] = 0.7486124283179323;
-		weights[36] = 0.8083152640778664;
-		weights[37] = 0.4601905245027037;
-		weights[38] = 0.9995299988155745;
-		weights[39] = 0.8623419736346781;
-		weights[40] = 1.1674898131130922;
-		weights[41] = 2.5959125791821216;
-		weights[42] = 5.700678546004439;
-		weights[43] = 6.485777780904867;
-		weights[44] = 6.068445254532578;
-		weights[45] = 5.91011823227844;
-		weights[46] = 5.7468225163111955;
-		weights[47] = 6.339117727827465;
-		weights[48] = 5.815809464639331;
-		weights[49] = 13.42806531396655;
-		weights[50] = 38.52635196477415;
-		
-		bias[0] = -0.20485914566879174;
-		bias[1] = 0.1712351194404911;
-		bias[2] = 0.1486951210426833;
-		bias[3] = -0.392838691090854;
-		bias[4] = -0.3197295510515654;
-		bias[5] = -0.553546701481008;
-		bias[6] = -0.29638940777301237;
-		bias[7] = -0.4110024456152197;
-		bias[8] = -0.3594700786597949;
-		bias[9] = -0.27124171616780013;
-		bias[10] = -3.839520787079571;
+		weights[0] = 0.7047978158987594;
+		weights[1] = 2.6359782904187328;
+		weights[2] = 0.7973855633843541;
+		weights[3] = 1.3432884018900104;
+		weights[4] = 4.644749519224513;
+		weights[5] = 2.483205156620393;
+		weights[6] = 3.966621766246536;
+		weights[7] = 2.8426753249604424;
+		weights[8] = 3.2775088602751987;
+		weights[9] = 1.932363597524494;
+		weights[10] = 3.765811166696689;
+		weights[11] = 3.775760080982718;
+		weights[12] = 4.497966776236853;
+		weights[13] = 0.3578081471049388;
+		weights[14] = 0.4630603102637737;
+		weights[15] = 2.878712875358681;
+		weights[16] = 3.140955436518182;
+		weights[17] = 3.6701856918895306;
+		weights[18] = 0.684198366684719;
+		weights[19] = 1.7783449880845426;
+		weights[20] = 1.4555673794321984;
+		weights[21] = 1.8125111330772254;
+		weights[22] = 0.39222833823809755;
+		weights[23] = 3.668033569914307;
+		weights[24] = 1.3851269908481263;
+		weights[25] = 3.3230132430010397;
+		weights[26] = 0.8077623155748787;
+		weights[27] = 4.705401334083072;
+		weights[28] = 0.31922864367838144;
+		weights[29] = 2.953670556853438;
+		weights[30] = 2.747888535479526;
+		weights[31] = 0.5293621844626434;
+		weights[32] = 4.957885671293521;
+		weights[33] = 3.064809192883728;
+		weights[34] = 4.162674121505423;
+		weights[35] = 4.478716562607558;
+		weights[36] = 4.807718728453309;
+		weights[37] = 4.4038202333309355;
+		weights[38] = 1.3565185252030885;
+		weights[39] = 0.9353034215891861;
+		weights[40] = 2.616243100007833;
+		weights[41] = 1.920007329737218;
+		weights[42] = 1.4958255244588752;
+		weights[43] = 1.7117779064443341;
+		weights[44] = 3.742699328347848;
+		weights[45] = 1.4677678902935314;
+		weights[46] = 2.5249813267236747;
+		weights[47] = 0.5574217999011878;
+		weights[48] = 0.06250928275975072;
+		weights[49] = 3.6691941920213194;
+		weights[50] = 1.6017912796440223;
+		bias[0] = 5.284673430116425;
+		bias[1] = 5.453148966978525;
+		bias[2] = 5.395766649871816;
+		bias[3] = 5.951109279607398;
+		bias[4] = 5.657080159200418;
+		bias[5] = 6.102410237304012;
+		bias[6] = 5.820270139183672;
+		bias[7] = 5.929831638010509;
+		bias[8] = 6.0743624023361225;
+		bias[9] = 5.9406457244175;
+		bias[10] = -4.9178226571127315;
 		
 		inputs = new double[8];
 
@@ -127,7 +126,7 @@ public class neuralNet {
 	public void addDataPoint(double avgScore,double epDeviation, double speedDeviation,double epCount,double impactScore, double realScore)
 	{
 		inputs[0] = avgScore;
-		inputs[1] = epDeviation;
+		inputs[1] = 0;
 		inputs[2] = speedDeviation;
 		inputs[3] = epCount;
 		inputs[4] = impactScore;
@@ -137,7 +136,7 @@ public class neuralNet {
 	public void addDataPoint(double avgScore,double epDeviation, double speedDeviation,double epCount,double impactScore)
 	{
 		inputs[0] = avgScore;
-		inputs[1] = epDeviation;
+		inputs[1] = 0;
 		inputs[2] = speedDeviation;
 		inputs[3] = epCount;
 		inputs[4] = impactScore;
@@ -222,20 +221,12 @@ public class neuralNet {
 		double output = runItThroughDet();
 		double cost = Math.pow((output - inputs[5]),2);
 		double derCostdOutput = 2 * (output - inputs[5]);
-		double learningRate = 0.001;
+		double learningRate = 0.1;
 		for(int x = 0; x < weights.length; x++)
 		{
-			weights[x] += 0.00001;
-			derWeights[x] = (Math.pow(runItThroughDet() - inputs[5], 2) - cost)/0.00001;
-			weights[x] -= 0.00001;
-			if(weights[x] < -30)
-			{
-				weights[x] = -30;
-			}
-			if(weights[x] > 30)
-			{
-				weights[x] = 30;
-			}
+			weights[x] += 0.0001;
+			derWeights[x] = (cost - Math.pow(runItThroughDet() - inputs[5], 2))/0.0001;
+			weights[x] -= 0.0001;
 		}
 		
 		for(int x = 0; x < weights.length; x++)

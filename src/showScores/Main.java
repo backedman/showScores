@@ -28,6 +28,7 @@ public class Main {
 	public static String list;
 	public static String currentPath;
 	public static String[][] showList;
+	public static ArrayList<String> tempShowTitles;
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		Boolean cont = true;
@@ -280,7 +281,7 @@ public class Main {
 	{
 		list = "Completed";
 		compileTitleList();
-		compileAnimeList();
+		compileShowList();
 		String showname;
 		Show show;
 		double weights[];
@@ -291,7 +292,7 @@ public class Main {
 		boolean cont = true;
 		while(cont)
 		{
-			for(int showInList = 0; showInList < showTitles.size(); showInList++)
+			for(int showInList = 0; showInList < tempShowTitles.size(); showInList++)
 			{
 				nn.addDataPoint(Double.valueOf(showList[showInList][0]), Double.valueOf(showList[showInList][1]), Double.valueOf(showList[showInList][2]), Double.valueOf(showList[showInList][3]), Double.valueOf(showList[showInList][4]), Double.valueOf(showList[showInList][5]));
 				nn.changeWeights();
@@ -310,32 +311,38 @@ public class Main {
 		}
 		double avg = 0;
 		double pointavg = 0;
-		for(int showInList = 0; showInList < showTitles.size(); showInList++)
+		for(int showInList = 0; showInList < tempShowTitles.size(); showInList++)
 		{
 			nnScore = nn.getNNScore(Double.valueOf(showList[showInList][0]), Double.valueOf(showList[showInList][1]), Double.valueOf(showList[showInList][2]), Double.valueOf(showList[showInList][3]), Double.valueOf(showList[showInList][4]), Double.valueOf(showList[showInList][5]));
 			System.out.println(showList[showInList][6] + " NN Score: " + nnScore + "                               Real Score: " + showList[showInList][5] + "                            % off: " + ((nnScore - Double.valueOf(showList[showInList][5]))/Double.valueOf(showList[showInList][5])));
 		}
-		for(int showInList = 0; showInList < showTitles.size(); showInList++)
+		for(int showInList = 0; showInList < tempShowTitles.size(); showInList++)
 		{
-			showname = showTitles.get(showInList);
+			showname = tempShowTitles.get(showInList);
 			show = new Show(showname, list, true);
 			nnScore = nn.getNNScore(show.getAverageScore(), show.getAverageEpisodeDeviation(), show.getAverageSpeedDeviation(), show.getEpisodeCount(), show.getImpactScore(), show.getRealScore());
 			avg += Math.abs((nnScore-show.getRealScore())/show.getRealScore());
 			pointavg += Math.abs(nnScore - show.getRealScore());
 			System.out.println(Math.abs((nnScore-show.getRealScore())/show.getRealScore()));
 		}
-		System.out.println("avg = " + (avg/showTitles.size()));
-		System.out.println("average points off: " + (pointavg/showTitles.size()));
+		System.out.println("avg = " + (avg/tempShowTitles.size()));
+		System.out.println("average points off: " + (pointavg/tempShowTitles.size()));
 		nn.returnData();
 
 	}
-	private static void compileAnimeList() throws IOException
+	private static void compileShowList() throws IOException
 	{
 		Show show;
+		boolean skip = false;
+		tempShowTitles = (ArrayList<String>) showTitles.clone();
 		showList = new String[showTitles.size()][7];
-		for(int x = 0; x < showTitles.size(); x++)
+		for(int x = 0; x < tempShowTitles.size(); x++)
 		{
-			show = new Show(showTitles.get(x), list, true);
+			if(skip== true)
+			{
+				x--;
+			}
+			show = new Show(tempShowTitles.get(x), list, true);
 			for(int y = 0; y < 7; y++)
 			{
 				switch(y)
@@ -356,13 +363,22 @@ public class Main {
 						showList[x][y] = Double.toString(show.getImpactScore());
 						break;
 					case 5:
-						showList[x][y] = Double.toString(show.getRealScore());
+						try
+						{
+							showList[x][y] = Double.toString(show.getRealScore());
+						}
+						catch(NullPointerException e)
+						{
+							tempShowTitles.remove(x);
+							x--;
+							y = 7;
+						}
 						break;
 					case 6:
-						showList[x][y] = showTitles.get(x);
+						showList[x][y] = tempShowTitles.get(x);
 						break;
 				}
-				System.out.println(showList[x][y]);
+				System.out.println(tempShowTitles.get(x));
 			}
 		}
 	}
