@@ -44,7 +44,7 @@ public class Show {
 		currentPath = Main.Path + "//" + status;
 		this.name = name;
 		this.status = status;
-		baseSpeed = 1.15;
+		baseSpeed = 1;
 		show = new File(currentPath + "//" + Main.makeSafe(name) + ".txt");
 
 		try {
