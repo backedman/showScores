@@ -327,9 +327,6 @@ public class neuralNet {
 	public double getNNScore(double avgScore,double epDeviation, double speedDeviation,double epCount, double impactScore, double realScore)
 	{
 		addDataPoint(avgScore, epDeviation, speedDeviation, epCount, impactScore,realScore);
-	/*	double firstLayer1 = weights[0]*inputs[0] + weights[1]*inputs[1] + weights[2]*inputs[2] + weights[3]*inputs[3] + weights[4]*inputs[4] + bias[0];
-		double output = sigmundIt(firstLayer1);
-		output = (output) * 10; */
 		double output = runItThroughDet();
 		double accuracy = (output - inputs[5])/inputs[5];
 		accuracyList.add(accuracy);
