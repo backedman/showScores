@@ -27,9 +27,6 @@ public class Main {
 	static PrintWriter input;
 	public static String list;
 	public static String currentPath;
-	public static int bestGeneration;
-	public static int currentGeneration;
-	public static int iteration;
 	public static String[][] animeList;
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
@@ -289,10 +286,9 @@ public class Main {
 		double weights[];
 		boolean firstGen;
 		double nnScore;
+		int iteration = 0;
 		neuralNet nn = new neuralNet();
-		currentGeneration = 1;
 		boolean cont = true;
-		iteration = 1;
 		while(cont)
 		{
 			for(int animeInList = 0; animeInList < animeTitles.size(); animeInList++)
@@ -330,37 +326,6 @@ public class Main {
 		}
 		System.out.println("avg = " + (avg/animeTitles.size()));
 		System.out.println("average points off: " + (pointavg/animeTitles.size()));
-
-		/*do
-		{
-			System.out.println("current generation: " + currentGeneration);
-			System.out.println("best generation: " + bestGeneration);
-			for(int iteration = 1; iteration <= 30; iteration++)
-			{
-				if(currentGeneration % 30 == 0)
-				{
-					nn.randomizeHalf();
-				}
-				else
-				{
-					nn.mutation();
-				}
-				for(int animeInList = 0; animeInList < animetitles.size(); animeInList++)
-				{
-					animename = animetitles.get(animeInList);
-					anime = new anime(animename, list, true);
-					nn.addDataPoint(anime.getAverageScore(), anime.getAverageEpisodeDeviation(), anime.getAverageSpeedDeviation(), anime.getEpisodeCount(), anime.getImpactScore(), anime.getRealScore());
-					nn.RunItThrough();
-				}
-				
-				nn.finishIteration();
-			}
-
-			nn.finishGeneration();
-			currentGeneration++;
-			System.out.println("Best Avg Accuracy: " + nn.getBestAvgAccuracy());
-		}
-		while(nn.getBestAvgAccuracy() > 0.05); */
 		nn.returnData();
 
 	}
