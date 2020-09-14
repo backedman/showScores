@@ -22,36 +22,36 @@ import java.io.FileWriter;
 public class Show {
 	private String name;
 	private String status;
-	private File anime;
+	private File show;
 	private int episodecount;
 	private PrintWriter input;
 	private ArrayList<String> information = new ArrayList<String>();
 	private Scanner reader;
 	boolean read;
-	double basespeed;
+	double baseSpeed;
 	private double score;
 	private double impactScore;
 	private double avgScore;
 	private int currentEpisodeCount;
 	private Double realScore;
-	private String pathcurrent;
+	private String currentPath;
 	private ArrayList<Double> episodeRatings = new ArrayList<Double>();
 	private ArrayList<Double> episodeSpeed = new ArrayList<Double>();
 	private boolean realScoreExists = false;
 	public Show(String name, String status) throws IOException
 	{
 		
-		pathcurrent = Main.Path + "//" + status;
+		currentPath = Main.Path + "//" + status;
 		this.name = name;
 		this.status = status;
-		basespeed = 1.15;
-		anime = new File(pathcurrent + "//" + Main.makeSafe(name) + ".txt");
+		baseSpeed = 1.15;
+		show = new File(currentPath + "//" + Main.makeSafe(name) + ".txt");
 
 		try {
-			if(anime.createNewFile())
+			if(show.createNewFile())
 			{
 				try {
-					input = new PrintWriter(new FileWriter(anime, true));
+					input = new PrintWriter(new FileWriter(show, true));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -59,7 +59,7 @@ public class Show {
 				input.println("Name: " + name);
 				input.println("Status: " + status);
 				input.println("Episodes: " + 0);
-				input.println("Base Speed: " + basespeed);
+				input.println("Base Speed: " + baseSpeed);
 				input.println("Score: " + 0);
 				score = 0;
 				input.println("    Impact Rating: ");
@@ -76,10 +76,10 @@ public class Show {
 
 
 		try {
-			anime = new File(pathcurrent + "//" + Main.makeSafe(name) + ".txt");
-			reader = new Scanner(anime);
+			show = new File(currentPath + "//" + Main.makeSafe(name) + ".txt");
+			reader = new Scanner(show);
 		} catch (FileNotFoundException e1) {
-			anime = new File(pathcurrent + "//" + Main.makeSafe(name) + ".txt");
+			show = new File(currentPath + "//" + Main.makeSafe(name) + ".txt");
 		}
 
 		read = true;
@@ -166,7 +166,7 @@ public class Show {
 		}
 		episodecount = Integer.valueOf(information.get(2));
 		currentEpisodeCount = episodecount;
-		basespeed = Double.valueOf(information.get(3));
+		baseSpeed = Double.valueOf(information.get(3));
 		score = Double.valueOf(information.get(4));
 		try{
 			impactScore = Double.valueOf(information.get(5));
@@ -180,10 +180,10 @@ public class Show {
 			realScore = Double.valueOf(information.get(7));
 		}
 		reader = new Scanner(System.in);
-			boolean accessAnime = true;
-			while(accessAnime)
+			boolean accessShow = true;
+			while(accessShow)
 			{
-				System.out.println("What do you want to do with the anime?");
+				System.out.println("What do you want to do with the show?");
 				System.out.println("        1. Record watching stats                  ");
 				System.out.println("        2. Get watching stats and average ratings ");
 				System.out.println("        3. Other settings                         ");
@@ -206,7 +206,7 @@ public class Show {
 					System.out.println("        1. Set Impact Score                   ");
 					System.out.println("        2. Change current episode             ");
 					System.out.println("        3. Change base speed");
-					System.out.println("        4. Set anime as Completed");
+					System.out.println("        4. Set show as Completed");
 					choice = reader.nextInt();
 					if(choice == 1)
 					{
@@ -218,7 +218,7 @@ public class Show {
 					}
 					else if(choice == 3)
 					{
-						basespeed = reader.nextDouble();
+						baseSpeed = reader.nextDouble();
 					}
 					else if(choice == 4)
 					{
@@ -229,7 +229,7 @@ public class Show {
 				{
 					updateScores();
 					writeToFile();
-					accessAnime = false;
+					accessShow = false;
 				} 	
 
 			}
@@ -268,7 +268,7 @@ public class Show {
 					value = reader.nextLine();
 					if(value.isEmpty())
 					{
-						speed = basespeed;
+						speed = baseSpeed;
 					}
 					else
 					{
@@ -295,7 +295,7 @@ public class Show {
 		if(!replace)
 		{
 			try {
-				input = new PrintWriter(new FileWriter(anime, true));
+				input = new PrintWriter(new FileWriter(show, true));
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -305,10 +305,10 @@ public class Show {
 		}
 		else if(replace)
 		{
-			anime = new File(pathcurrent + "//" + name + ".txt");
+			show = new File(currentPath + "//" + name + ".txt");
 			ArrayList<String> content = new ArrayList<String>();
 			try {
-				Scanner reader = new Scanner(anime);
+				Scanner reader = new Scanner(show);
 				boolean read = true;
 				while(read)
 				{
@@ -331,7 +331,7 @@ public class Show {
 			}
 			PrintWriter rewrite = null;
 			try {
-				rewrite = new PrintWriter(anime);
+				rewrite = new PrintWriter(show);
 				for(int x = 0; x < content.size(); x++)
 				{
 					rewrite.println(content.get(x));
@@ -339,7 +339,7 @@ public class Show {
 				rewrite.close();
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
-				anime = new File(pathcurrent + "//" + name + ".txt");
+				show = new File(currentPath + "//" + name + ".txt");
 			}
 
 		}
@@ -356,7 +356,7 @@ public class Show {
 		{
 			perEpisodeScore = episodeRatings.get(x);
 			speed = episodeSpeed.get(x);
-			difference = speed - basespeed;
+			difference = speed - baseSpeed;
 
 			//difference = (int)(difference * 4)/(double)4;
 			if(difference >= 0 && difference <= 0.25)
@@ -432,7 +432,7 @@ public class Show {
 	
 	public double getBaseSpeed()
 	{
-		return basespeed;
+		return baseSpeed;
 	}
 	
 	public double getAverageSpeed()
@@ -450,7 +450,7 @@ public class Show {
 		double speedDeviation = 0;
 		for(int x =0; x < episodeSpeed.size(); x++)
 		{
-			speedDeviation += episodeSpeed.get(x) - basespeed;
+			speedDeviation += episodeSpeed.get(x) - baseSpeed;
 		}
 		return speedDeviation/episodeSpeed.size();
 	}
@@ -495,10 +495,10 @@ public class Show {
 
 	{
 		String contentLine;
-		anime = new File(pathcurrent + "//" + Main.makeSafe(name) + ".txt");
+		show = new File(currentPath + "//" + Main.makeSafe(name) + ".txt");
 		ArrayList<String> content = new ArrayList<String>();
 		try {
-			Scanner reader = new Scanner(anime);
+			Scanner reader = new Scanner(show);
 			boolean read = true;
 			int adder = 0;
 			while(reader.hasNextLine())
@@ -531,7 +531,7 @@ public class Show {
 			}
 			else if(contentLine.contains("Base Speed:"))
 			{
-				content.set(iterate, "Base Speed: " + basespeed);
+				content.set(iterate, "Base Speed: " + baseSpeed);
 
 			}
 			else if(contentLine.contains("Score: "))
@@ -563,10 +563,10 @@ public class Show {
 		}
 		PrintWriter rewrite = null;
 		try {
-			rewrite = new PrintWriter(anime);
+			rewrite = new PrintWriter(show);
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
-			anime = new File(pathcurrent + "//" + Main.makeSafe(name) + ".txt");
+			show = new File(currentPath + "//" + Main.makeSafe(name) + ".txt");
 		}
 		for(int x = 0; x < content.size(); x++)
 		{
@@ -582,17 +582,17 @@ public class Show {
 	
 	public Show(String name, String status, boolean OpenClose) throws IOException
 	{
-		pathcurrent = Main.Path + "//" + status;
+		currentPath = Main.Path + "//" + status;
 		this.name = name;
 		this.status = status;
-		basespeed = 1.15;
-		anime = new File(pathcurrent + "//" + Main.makeSafe(name) + ".txt");
+		baseSpeed = 1.15;
+		show = new File(currentPath + "//" + Main.makeSafe(name) + ".txt");
 
 		try {
-			if(anime.createNewFile())
+			if(show.createNewFile())
 			{
 				try {
-					input = new PrintWriter(new FileWriter(anime, true));
+					input = new PrintWriter(new FileWriter(show, true));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -600,7 +600,7 @@ public class Show {
 				input.println("Name: " + name);
 				input.println("Status: " + status);
 				input.println("Episodes: " + 0);
-				input.println("Base Speed: " + basespeed);
+				input.println("Base Speed: " + baseSpeed);
 				input.println("Score: " + 0);
 				score = 0;
 				input.println("    Impact Rating: ");
@@ -617,10 +617,10 @@ public class Show {
 
 
 		try {
-			anime = new File(pathcurrent + "//" + Main.makeSafe(name) + ".txt");
-			reader = new Scanner(anime);
+			show = new File(currentPath + "//" + Main.makeSafe(name) + ".txt");
+			reader = new Scanner(show);
 		} catch (FileNotFoundException e1) {
-			anime = new File(pathcurrent + "//" + Main.makeSafe(name) + ".txt");
+			show = new File(currentPath + "//" + Main.makeSafe(name) + ".txt");
 		}
 
 		read = true;
@@ -713,7 +713,7 @@ public class Show {
 		}
 		episodecount = Integer.valueOf(information.get(2));
 		currentEpisodeCount = episodecount;
-		basespeed = Double.valueOf(information.get(3));
+		baseSpeed = Double.valueOf(information.get(3));
 		score = Double.valueOf(information.get(4));
 		try{
 			impactScore = Double.valueOf(information.get(5));
