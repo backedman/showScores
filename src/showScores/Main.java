@@ -16,37 +16,37 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-
 import neuralNetwork.neuralNet;
 import show.Show;
+
 public class Main {
 	public static String Path = "Data";
-	static File animeNames;
-	static ArrayList<String> animeTitles;
+	static File showNames;
+	static ArrayList<String> showTitles;
 	static Scanner filereading;
 	static PrintWriter input;
 	public static String list;
 	public static String currentPath;
-	public static String[][] animeList;
+	public static String[][] showList;
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		Boolean cont = true;
 		list = "Watching";
 		Scanner userInput;
-		String animeName = null;
-		Show anime = null;
-		animeTitles = new ArrayList<String>();
+		String showName = null;
+		Show show = null;
+		showTitles = new ArrayList<String>();
 
 		while(cont)
 		{
 			currentPath = Path + "\\" + list;
 			new File(currentPath).mkdirs();
-			animeNames = new File(currentPath + "//" + "animenames" + ".txt");
+			showNames = new File(currentPath + "//" + "shownames" + ".txt");
 			try {
-				if(animeNames.createNewFile())
+				if(showNames.createNewFile())
 				{
 					try {
-						input = new PrintWriter(new FileWriter(animeNames, false));
+						input = new PrintWriter(new FileWriter(showNames, false));
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -65,19 +65,19 @@ public class Main {
 			int pageS = 1;
 			while(inList)
 			{
-				maxpage = (int)(animeTitles.size()/10 + 1.5);
+				maxpage = (int)(showTitles.size()/10 + 1.5);
 				userInput = new Scanner(System.in);
 				System.out.println("Page " + page + "/" + maxpage);
 				for(int y = 1; y <= 10; y++)
 				{
-					if((y <= animeTitles.size() - (page - 1)*10))
+					if((y <= showTitles.size() - (page - 1)*10))
 					{
 						try {
-							System.out.println(y + ". " + animeTitles.get(y-1 + (page-1)*10));
+							System.out.println(y + ". " + showTitles.get(y-1 + (page-1)*10));
 						}
 						catch(ArrayIndexOutOfBoundsException e){
 							page = pageS;
-							System.out.println(y + ". " + animeTitles.get(y-1 + (page-1)*10));
+							System.out.println(y + ". " + showTitles.get(y-1 + (page-1)*10));
 						}
 						
 					}
@@ -91,15 +91,15 @@ public class Main {
 				switch(ans)
 				{
 					case "1": case "2": case "3": case "4": case "5": case "6": case "7": case "8": case "9": case "10":
-						animeName = animeTitles.get(Integer.parseInt(ans) - 1 + (page-1)*10);
+						showName = showTitles.get(Integer.parseInt(ans) - 1 + (page-1)*10);
 						if(list.equals(""))
 						{
 							boolean listContains = false;
 							list = "Watching";
 							compileTitleList();
-							for(int x = 0; x < animeTitles.size(); x++)
+							for(int x = 0; x < showTitles.size(); x++)
 							{
-								if(makeCompareable(animeTitles.get(x)).equals((makeCompareable(animeName))))
+								if(makeCompareable(showTitles.get(x)).equals((makeCompareable(showName))))
 								{
 									listContains = true;
 								}
@@ -110,35 +110,35 @@ public class Main {
 								compileTitleList();
 							}
 						}
-						anime = new Show(animeName, list);
+						show = new Show(showName, list);
 						exists = true;
-						for(int x = 0; x < animeTitles.size(); x++)
+						for(int x = 0; x < showTitles.size(); x++)
 						{
-							if((makeCompareable(animeTitles.get(x)).equals(makeCompareable(animeName))))
+							if((makeCompareable(showTitles.get(x)).equals(makeCompareable(showName))))
 							{
 								exists = true;
 							}
 							System.out.println("exists");
 						}
-						if(animeTitles.size() == 0 || !exists)
+						if(showTitles.size() == 0 || !exists)
 						{
-							animeTitles.add(animeName);
+							showTitles.add(showName);
 						}
-						if(!anime.getStatus().equals(list) && !list.equals(""))
+						if(!show.getStatus().equals(list) && !list.equals(""))
 						{
-							for(int x = 0; x < animeTitles.size(); x++)
+							for(int x = 0; x < showTitles.size(); x++)
 							{
-								if((makeCompareable(animeTitles.get(x)).equals(makeCompareable(animeName))))
+								if((makeCompareable(showTitles.get(x)).equals(makeCompareable(showName))))
 								{
-									animeTitles.remove(x);
+									showTitles.remove(x);
 								}
 							}
-							File animePath = new File(currentPath + "//" + makeSafe(animeName) + ".txt");
-							File newPath = new File(Path + "//" + anime.getStatus() + "//" + makeSafe(animeName) + ".txt");
-							new File(Path + anime.getStatus()).mkdirs();
+							File showPath = new File(currentPath + "//" + makeSafe(showName) + ".txt");
+							File newPath = new File(Path + "//" + show.getStatus() + "//" + makeSafe(showName) + ".txt");
+							new File(Path + show.getStatus()).mkdirs();
 							newPath.createNewFile();
 							try {
-								Files.move(animePath.toPath(), newPath.toPath(), StandardCopyOption.REPLACE_EXISTING);
+								Files.move(showPath.toPath(), newPath.toPath(), StandardCopyOption.REPLACE_EXISTING);
 							}
 							catch(IOException e)
 							{
@@ -153,7 +153,7 @@ public class Main {
 							WritetoFile();
 							list = "Completed";
 							compileTitleList();
-							animeTitles.add(animeName);
+							showTitles.add(showName);
 						}
 						
 						else {
@@ -165,43 +165,43 @@ public class Main {
 						WritetoFile();
 						list = "Watching";
 						compileTitleList();
-						System.out.println("anime name?");
-						animeName = userInput.nextLine();
-						anime = new Show(makeSafe(animeName), list);
+						System.out.println("show name?");
+						showName = userInput.nextLine();
+						show = new Show(makeSafe(showName), list);
 						exists = true;
-							for(int x = 0; x < animeTitles.size(); x++)
+							for(int x = 0; x < showTitles.size(); x++)
 							{
-								if(!(makeCompareable(animeTitles.get(x)).equals(makeCompareable(animeName))))
+								if(!(makeCompareable(showTitles.get(x)).equals(makeCompareable(showName))))
 								{
 									exists = false;
 								}	
 							}
 							
-							if(animeTitles.size() == 0 || !exists)
+							if(showTitles.size() == 0 || !exists)
 							{
-								animeTitles.add(animeName);
+								showTitles.add(showName);
 							}
-						if(!anime.getStatus().equals(list))
+						if(!show.getStatus().equals(list))
 						{
-							for(int x = 0; x < animeTitles.size(); x++)
+							for(int x = 0; x < showTitles.size(); x++)
 							{
-								if(!(makeCompareable(animeTitles.get(x)).equals(makeCompareable(animeName))))
+								if(!(makeCompareable(showTitles.get(x)).equals(makeCompareable(showName))))
 								{
 									exists = false;
 								}
 								if(!exists)
 								{
-									animeTitles.add(animeName);
+									showTitles.add(showName);
 								}
 							}
-							File animePath = new File(currentPath + "//" + makeSafe(animeName) + ".txt");
-							currentPath = Path + "//" + anime.getStatus();
-							File newPath = new File(currentPath + "//" + makeSafe(animeName) + ".txt");
+							File showPath = new File(currentPath + "//" + makeSafe(showName) + ".txt");
+							currentPath = Path + "//" + show.getStatus();
+							File newPath = new File(currentPath + "//" + makeSafe(showName) + ".txt");
 							
 							new File(currentPath).mkdirs();
 							newPath.createNewFile();
 							try {
-								Files.move(animePath.toPath(), newPath.toPath(), StandardCopyOption.REPLACE_EXISTING);
+								Files.move(showPath.toPath(), newPath.toPath(), StandardCopyOption.REPLACE_EXISTING);
 							}
 							catch(IOException e)
 							{
@@ -214,10 +214,10 @@ public class Main {
 								}
 							}
 							WritetoFile();
-							list = anime.getStatus();
-							animeTitles.clear();
+							list = show.getStatus();
+							showTitles.clear();
 							compileTitleList();
-							animeTitles.add(animeName);
+							showTitles.add(showName);
 						}
 						WritetoFile();
 						break;
@@ -281,8 +281,8 @@ public class Main {
 		list = "Completed";
 		compileTitleList();
 		compileAnimeList();
-		String animename;
-		Show anime;
+		String showname;
+		Show show;
 		double weights[];
 		boolean firstGen;
 		double nnScore;
@@ -291,15 +291,15 @@ public class Main {
 		boolean cont = true;
 		while(cont)
 		{
-			for(int animeInList = 0; animeInList < animeTitles.size(); animeInList++)
+			for(int showInList = 0; showInList < showTitles.size(); showInList++)
 			{
-				nn.addDataPoint(Double.valueOf(animeList[animeInList][0]), Double.valueOf(animeList[animeInList][1]), Double.valueOf(animeList[animeInList][2]), Double.valueOf(animeList[animeInList][3]), Double.valueOf(animeList[animeInList][4]), Double.valueOf(animeList[animeInList][5]));
+				nn.addDataPoint(Double.valueOf(showList[showInList][0]), Double.valueOf(showList[showInList][1]), Double.valueOf(showList[showInList][2]), Double.valueOf(showList[showInList][3]), Double.valueOf(showList[showInList][4]), Double.valueOf(showList[showInList][5]));
 				nn.changeWeights();
 			}
 			nn.finishIteration2();
 			if(iteration % 400 == 0 || iteration < 100)
 			{
-				System.out.println("Best Avg Accuracy: " + nn.getBestAvgAccuracy())/*((1 - nn.getBestAvgAccuracy()) * 100)) */;
+				System.out.println("Best Avg Accuracy: " + nn.getBestAvgAccuracy());
 				System.out.println("     Iteration " + iteration);
 			}
 			iteration++;
@@ -310,108 +310,108 @@ public class Main {
 		}
 		double avg = 0;
 		double pointavg = 0;
-		for(int animeInList = 0; animeInList < animeTitles.size(); animeInList++)
+		for(int showInList = 0; showInList < showTitles.size(); showInList++)
 		{
-			nnScore = nn.getNNScore(Double.valueOf(animeList[animeInList][0]), Double.valueOf(animeList[animeInList][1]), Double.valueOf(animeList[animeInList][2]), Double.valueOf(animeList[animeInList][3]), Double.valueOf(animeList[animeInList][4]), Double.valueOf(animeList[animeInList][5]));
-			System.out.println(animeList[animeInList][6] + " NN Score: " + nnScore + "                               Real Score: " + animeList[animeInList][5] + "                            % off: " + ((nnScore - Double.valueOf(animeList[animeInList][5]))/Double.valueOf(animeList[animeInList][5])));
+			nnScore = nn.getNNScore(Double.valueOf(showList[showInList][0]), Double.valueOf(showList[showInList][1]), Double.valueOf(showList[showInList][2]), Double.valueOf(showList[showInList][3]), Double.valueOf(showList[showInList][4]), Double.valueOf(showList[showInList][5]));
+			System.out.println(showList[showInList][6] + " NN Score: " + nnScore + "                               Real Score: " + showList[showInList][5] + "                            % off: " + ((nnScore - Double.valueOf(showList[showInList][5]))/Double.valueOf(showList[showInList][5])));
 		}
-		for(int animeInList = 0; animeInList < animeTitles.size(); animeInList++)
+		for(int showInList = 0; showInList < showTitles.size(); showInList++)
 		{
-			animename = animeTitles.get(animeInList);
-			anime = new Show(animename, list, true);
-			nnScore = nn.getNNScore(anime.getAverageScore(), anime.getAverageEpisodeDeviation(), anime.getAverageSpeedDeviation(), anime.getEpisodeCount(), anime.getImpactScore(), anime.getRealScore());
-			avg += Math.abs((nnScore-anime.getRealScore())/anime.getRealScore());
-			pointavg += Math.abs(nnScore - anime.getRealScore());
-			System.out.println(Math.abs((nnScore-anime.getRealScore())/anime.getRealScore()));
+			showname = showTitles.get(showInList);
+			show = new Show(showname, list, true);
+			nnScore = nn.getNNScore(show.getAverageScore(), show.getAverageEpisodeDeviation(), show.getAverageSpeedDeviation(), show.getEpisodeCount(), show.getImpactScore(), show.getRealScore());
+			avg += Math.abs((nnScore-show.getRealScore())/show.getRealScore());
+			pointavg += Math.abs(nnScore - show.getRealScore());
+			System.out.println(Math.abs((nnScore-show.getRealScore())/show.getRealScore()));
 		}
-		System.out.println("avg = " + (avg/animeTitles.size()));
-		System.out.println("average points off: " + (pointavg/animeTitles.size()));
+		System.out.println("avg = " + (avg/showTitles.size()));
+		System.out.println("average points off: " + (pointavg/showTitles.size()));
 		nn.returnData();
 
 	}
 	private static void compileAnimeList() throws IOException
 	{
-		Show anime;
-		animeList = new String[animeTitles.size()][7];
-		for(int x = 0; x < animeTitles.size(); x++)
+		Show show;
+		showList = new String[showTitles.size()][7];
+		for(int x = 0; x < showTitles.size(); x++)
 		{
-			anime = new Show(animeTitles.get(x), list, true);
+			show = new Show(showTitles.get(x), list, true);
 			for(int y = 0; y < 7; y++)
 			{
 				switch(y)
 				{
 					case 0:
-						animeList[x][y] = Double.toString(anime.getAverageScore());
+						showList[x][y] = Double.toString(show.getAverageScore());
 						break;
 					case 1:
-						animeList[x][y] = Double.toString(anime.getAverageEpisodeDeviation());
+						showList[x][y] = Double.toString(show.getAverageEpisodeDeviation());
 						break;
 					case 2:
-						animeList[x][y] = Double.toString(anime.getAverageSpeedDeviation());
+						showList[x][y] = Double.toString(show.getAverageSpeedDeviation());
 						break;
 					case 3:
-						animeList[x][y] = Double.toString(anime.getEpisodeCount());
+						showList[x][y] = Double.toString(show.getEpisodeCount());
 						break;
 					case 4:
-						animeList[x][y] = Double.toString(anime.getImpactScore());
+						showList[x][y] = Double.toString(show.getImpactScore());
 						break;
 					case 5:
-						animeList[x][y] = Double.toString(anime.getRealScore());
+						showList[x][y] = Double.toString(show.getRealScore());
 						break;
 					case 6:
-						animeList[x][y] = animeTitles.get(x);
+						showList[x][y] = showTitles.get(x);
 						break;
 				}
-				System.out.println(animeList[x][y]);
+				System.out.println(showList[x][y]);
 			}
 		}
 	}
 	private static void openAll (String List) throws IOException
 	{
 		compileTitleList();
-		String animename;
-		Show anime;
-		for(int x = 0; x < animeTitles.size(); x++)
+		String showname;
+		Show show;
+		for(int x = 0; x < showTitles.size(); x++)
 		{
-			animename = animeTitles.get(x);
-			anime = new Show(animename, List, true);
+			showname = showTitles.get(x);
+			show = new Show(showname, List, true);
 		}
 	}
 	private static void compileTitleList() throws IOException {
 		// TODO Auto-generated method stub
 		currentPath = Path + "//" + list;
-		animeNames = new File(currentPath + "//" + "animenames" + ".txt");
+		showNames = new File(currentPath + "//" + "shownames" + ".txt");
 		try {
-			filereading = new Scanner(animeNames);
+			filereading = new Scanner(showNames);
 		}
 		catch (FileNotFoundException e){
 			new File(currentPath + "//").mkdirs();
-			animeNames.createNewFile();
-			filereading = new Scanner(animeNames);
+			showNames.createNewFile();
+			filereading = new Scanner(showNames);
 		}
 		int x = 0;
 		boolean loop = true;
-		animeTitles.clear();
+		showTitles.clear();
 		if(list.equals(""))
 		{
 			String tempPath =Path + "//" + "Watching";
-			animeNames = new File(Path + "//" + tempPath + "//" + "animenames" + ".txt");
-			filereading = new Scanner(animeNames);
+			showNames = new File(Path + "//" + tempPath + "//" + "shownames" + ".txt");
+			filereading = new Scanner(showNames);
 			String next;
 			while(filereading.hasNextLine())
 			{
 				next = filereading.nextLine();
-				animeTitles.add(next);
+				showTitles.add(next);
 			}
 			tempPath =Path + "//" + "Completed";
-			animeNames = new File(tempPath + "//" + "animenames" + ".txt");
-			filereading = new Scanner(animeNames);
+			showNames = new File(tempPath + "//" + "shownames" + ".txt");
+			filereading = new Scanner(showNames);
 			while(filereading.hasNextLine())
 			{
 				next = filereading.nextLine();
-				animeTitles.add(next);
+				showTitles.add(next);
 			}
-			animeNames = new File(currentPath + "//" + "animenames" + ".txt");
+			showNames = new File(currentPath + "//" + "shownames" + ".txt");
 		}
 		else
 		{
@@ -422,7 +422,7 @@ public class Main {
 				lineExists = filereading.hasNextLine();
 				if(lineExists)
 				{
-					animeTitles.add(filereading.nextLine());
+					showTitles.add(filereading.nextLine());
 				}
 				else if(!lineExists)
 				{
@@ -430,7 +430,7 @@ public class Main {
 				}
 			}
 		}
-		Collections.sort(animeTitles, new Comparator<String>() {
+		Collections.sort(showTitles, new Comparator<String>() {
 			@Override
 		    public int compare(String s1, String s2) {
 		        return s1.compareToIgnoreCase(s2);
@@ -443,11 +443,11 @@ public class Main {
 	{
 		try {
 			new File(currentPath).mkdirs();
-			animeNames = new File(currentPath + "//" + "animenames" + ".txt");
-			input = new PrintWriter(new FileWriter(animeNames, false));
-			for(int x = 0; x < animeTitles.size(); x++)
+			showNames = new File(currentPath + "//" + "shownames" + ".txt");
+			input = new PrintWriter(new FileWriter(showNames, false));
+			for(int x = 0; x < showTitles.size(); x++)
 			{
-				input.println(animeTitles.get(x));
+				input.println(showTitles.get(x));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
